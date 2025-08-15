@@ -2,9 +2,20 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>IQOS広告モック</title>
   <style>
-    /* —— IQOS広告モック（300×250サイズ） —— */
+    /* —— IQOS広告モック（モバイル対応） —— */
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f5f5f5;
+    }
+    
     .ad-container {
       width: 300px;
       height: 250px;
@@ -15,9 +26,37 @@
       justify-content: center;
       position: relative;
       color: #34303E;
-      margin: 0 auto;
       overflow: hidden;
       font-family: 'Helvetica Neue', Arial, sans-serif;
+      transform: scale(2.5);
+      transform-origin: center;
+    }
+    
+    /* モバイル用スケーリング */
+    @media (max-width: 768px) {
+      .ad-container {
+        transform: scale(2.0);
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .ad-container {
+        transform: scale(1.8);
+      }
+    }
+    
+    @media (max-width: 360px) {
+      .ad-container {
+        transform: scale(1.5);
+      }
+    }
+    
+    /* スクロールが必要な場合の対応 */
+    @media (max-height: 600px) {
+      body {
+        min-height: auto;
+        padding: 20px 0;
+      }
     }
     
     .content {
@@ -27,7 +66,7 @@
     }
     
     .logo-img {
-      width: 160px;  /* 2倍に拡大 */
+      width: 160px;
       margin: 5px auto 0px;
       display: block;
     }
