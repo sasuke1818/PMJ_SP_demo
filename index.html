@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>IQOS広告モック</title>
+  <style>
+    /* —— IQOS広告モック（300×250サイズ） —— */
+    .ad-container {
+      width: 300px;
+      height: 250px;
+      background: #fff;
+      border: 1px solid #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      color: #34303E;
+      margin: 0 auto;
+      overflow: hidden;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+    
+    .content {
+      width: 100%;
+      padding: 25px 15px;
+      text-align: center;
+    }
+    
+    .logo-img {
+      width: 160px;  /* 2倍に拡大 */
+      margin: 5px auto 0px;
+      display: block;
+    }
+
+    .content p {
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 8px 0 15px;
+      color: #34303E;
+    }
+    
+    /* 質問文を目立たせる */
+    .content p .question {
+      font-size: 14px;
+      font-weight: bold;
+      color: #34303E;
+      display: block;
+      margin-top: 5px;
+    }
+
+    .btn-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 40px;
+      border-radius: 25px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      width: 195px;
+      text-align: center;
+    }
+    
+    /* 「20歳以上の喫煙者です」ボタン（濃い色） */
+    #btn-yes {
+      background: #34303E;
+      border: 2px solid #34303E;
+      color: #fff;
+    }
+    #btn-yes:hover {
+      background: #2D3748;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    /* 「20歳以上の喫煙者ではありません」ボタン（白系） */
+    #btn-no {
+      background: transparent;
+      border: 2px solid #34303E;
+      color: #34303E;
+    }
+    #btn-no:hover {
+      background: rgba(52, 48, 62, 0.1);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    /* アニメーション定義 */
+    @keyframes slideOutLeft {
+      to {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+    }
+    @keyframes slideOutRight {
+      to {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+    }
+    @keyframes slideInLeft {
+      from {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    @keyframes slideInRight {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .slide-out-left {
+      animation: slideOutLeft 0.6s ease forwards;
+    }
+    .slide-out-right {
+      animation: slideOutRight 0.6s ease forwards;
+    }
+    .slide-in-left {
+      animation: slideInLeft 0.6s ease forwards;
+    }
+    .slide-in-right {
+      animation: slideInRight 0.6s ease forwards;
+    }
+
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
+    .no-box {
+      background: rgba(255,255,255,0.95);
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 85%;
+      animation: fadeInScale 0.5s ease both;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .no-title {
+      font-size: 18px;  /* 300×250用にサイズ調整 */
+      font-weight: bold;
+      color: #00D4E4;
+      margin-bottom: 10px;
+    }
+    .no-text {
+      font-size: 11px;  /* 300×250用にサイズ調整 */
+      color: #333;
+      line-height: 1.5;
+    }
+    
+    .next-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+    }
+    .next-content img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    /* —— /IQOS広告モック —— */
+  </style>
+</head>
+<body>
+  <div class="ad-container">
+    <div class="content" id="content">
+      <!-- ロゴ画像（後で差し替え用） -->
+      <img src="IQOS_Logo.svg.png" alt="IQOS Logo" class="logo-img">
+
+      <!-- 年齢確認テキスト -->
+      <p>
+        あなたは日本在住の<br>
+        <span class="question">満20歳以上の喫煙者ですか？</span>
+      </p>
+
+      <!-- ボタン -->
+      <div class="btn-wrapper">
+        <span class="btn" id="btn-yes">満20歳以上の喫煙者です</span>
+        <span class="btn" id="btn-no">満20歳以上の喫煙者ではありません</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ボタン要素の取得
+    const btnYes = document.getElementById('btn-yes');
+    const btnNo = document.getElementById('btn-no');
+    const content = document.getElementById('content');
+    const container = document.querySelector('.ad-container');
+
+    // 画像をスライドインで表示する関数
+    function showNextImage(src, outDirection, inDirection) {
+      // 設問エリアを指定方向にフェードアウト
+      content.classList.add(outDirection === 'left' ? 'slide-out-left' : 'slide-out-right');
+
+      setTimeout(() => {
+        // フェードアウト後に設問エリアを非表示
+        content.style.display = 'none';
+
+        // 新しい要素を作成し、指定方向からスライドインさせる
+        const next = document.createElement('div');
+        next.className = 'next-content ' + (inDirection === 'left' ? 'slide-in-left' : 'slide-in-right');
+        next.innerHTML = `<img src="${src}" alt="Next Image">`;
+        container.appendChild(next);
+      }, 600); // アウトアニメーションと同じ時間
+    }
+
+    // 「申し訳ありません」メッセージをスライドインで表示する関数
+    function showSorryMessage(outDirection, inDirection) {
+      // 設問エリアを指定方向にフェードアウト
+      content.classList.add(outDirection === 'left' ? 'slide-out-left' : 'slide-out-right');
+      
+      setTimeout(() => {
+        // フェードアウト後に設問エリアを非表示
+        content.style.display = 'none';
+        
+        // 新しい要素を作成し、指定方向からスライドインさせる
+        const sorryDiv = document.createElement('div');
+        sorryDiv.className = 'next-content ' + (inDirection === 'left' ? 'slide-in-left' : 'slide-in-right');
+        sorryDiv.style.background = '#00D4E4';
+        sorryDiv.innerHTML = `
+          <div style="text-align: center; color: #fff; padding: 20px;">
+            <img src="IQOS_Logo.svg.png" alt="IQOS Logo" style="width: 160px; margin-bottom: 20px; display: block; margin-left: auto; margin-right: auto;">
+            <div style="font-size: 20px; font-weight: bold; margin-bottom: 15px;">申し訳ありません</div>
+            <div style="font-size: 12px; line-height: 1.5;">
+              満20歳未満の方はご利用いただけません。
+            </div>
+          </div>
+        `;
+        container.appendChild(sorryDiv);
+      }, 600);
+    }
+
+
+    // 「20歳以上の喫煙者です」クリック時：
+    // 設問を右に消し、左から製品画像がスライドイン
+    btnYes.addEventListener('click', () => {
+      showNextImage(
+        'MineraLEP-Branding-0326-300x250.jpg',  // IQOS製品画像（後で差し替え）
+        'right',  // 設問を右にフェードアウト
+        'left'    // 画像は左からスライドイン
+      );
+    });
+
+    // 「20歳以上の喫煙者ではありません」クリック時：
+    // 設問を左に消し、右から申し訳ありませんメッセージがスライドイン
+    btnNo.addEventListener('click', () => {
+      showSorryMessage(
+        'left',   // 設問を左にフェードアウト
+        'right'   // メッセージは右からスライドイン
+      );
+    });
+  </script>
+</body>
+</html>
